@@ -210,7 +210,9 @@ header.scrolled { box-shadow: 0 10px 30px -24px rgba(38, 56, 95, .6); }
 .intro-brand path { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
 .intro-brand small { display: block; font-family: var(--type); font-size: clamp(13px, 1.4vw, 16px); letter-spacing: .08em; text-align: center; margin-top: 12px; color: var(--paper); opacity: .8; }
 /* Enquanto a onda não passa, o conteúdo da abertura espera escondido */
-.intro-on header .wrap > *, .intro-on .hero .tag, .intro-on .hero h1, .intro-on .hero .lead, .intro-on .hero .actions, .intro-on .card { opacity: 0; animation: none; }
+.intro-on header .wrap > *, .intro-on .hero .tag, .intro-on .hero h1, .intro-on .hero .lead, .intro-on .hero .actions, .intro-on .card, .intro-on .trail { opacity: 0; animation: none; }
+/* Desde o primeiro quadro a tela já nasce azul: a onda clara cobre tudo enquanto o site termina de carregar */
+.intro-on .intro .l1 { transform: translateX(-40vw); }
 </style>
 <script>document.documentElement.classList.add('intro-on');</script>
 
@@ -386,10 +388,31 @@ header.scrolled { box-shadow: 0 10px 30px -24px rgba(38, 56, 95, .6); }
   if (!window.gsap || calm) { finish(); return; }
 
   var l1 = intro.querySelector('.l1'), l2 = intro.querySelector('.l2');
+  var trail = document.querySelector('.trail');
   var curls = brand.querySelectorAll('path');
+  gsap.set(l1, { x: '-40vw' });
   gsap.set(curls, { strokeDasharray: 1, strokeDashoffset: 1 });
 
-  var tl = gsap.timeline({ defaults: { ease: 'power3.inOut' }, onComplete: function () {
+  // Na primeira visita o navegador ainda está montando a página (foto, fontes) e a onda engasgaria.
+  // Ela só começa com tudo pronto; se a rede demorar demais, começa assim mesmo depois de 4s.
+  var tl, skipped = false, started = false;
+  var skipEvents = ['pointerdown', 'wheel', 'touchstart', 'keydown'];
+  function skip() { if (tl) tl.progress(1); else skipped = true; }
+  skipEvents.forEach(function (ev) { window.addEventListener(ev, skip, { once: true, passive: true }); });
+
+  function whenReady(cb) {
+    var loaded = new Promise(function (r) { document.readyState === 'complete' ? r() : window.addEventListener('load', r, { once: true }); });
+    var fonts = document.fonts ? document.fonts.ready : Promise.resolve();
+    var cap = new Promise(function (r) { setTimeout(r, 4000); });
+    Promise.race([Promise.all([loaded, fonts]), cap]).then(function () {
+      // Dois quadros de folga para o navegador terminar de pintar antes da animação
+      requestAnimationFrame(function () { requestAnimationFrame(cb); });
+    });
+  }
+  whenReady(function () { if (!started) { started = true; play(); } });
+
+  function play() {
+  tl = gsap.timeline({ defaults: { ease: 'power3.inOut' }, onComplete: function () {
     intro.remove(); brand.remove();
     // Impede que as animações CSS da abertura rodem de novo depois da onda
     content.forEach(function (el) { el.style.animation = 'none'; });
@@ -398,16 +421,12 @@ header.scrolled { box-shadow: 0 10px 30px -24px rgba(38, 56, 95, .6); }
   } });
 
   // Quem já conhece o site pode pular a entrada com um clique, toque, rolagem ou tecla
-  var skipEvents = ['pointerdown', 'wheel', 'touchstart', 'keydown'];
-  function skip() { tl.progress(1); }
-  skipEvents.forEach(function (ev) { window.addEventListener(ev, skip, { once: true, passive: true }); });
   tl.eventCallback('onComplete', (function (done) {
     return function () { skipEvents.forEach(function (ev) { window.removeEventListener(ev, skip); }); done(); };
   })(tl.eventCallback('onComplete')));
 
-  // 1. A onda chega: azul claro na frente, a onda escura cobre a tela
-  tl.to(l1, { x: '-40vw', duration: 1.0 }, 0)
-    .to(l2, { x: '-30vw', duration: 1.0 }, 0.12)
+  // 1. A tela já está azul-clara; a onda escura chega e cobre tudo
+  tl.to(l2, { x: '-30vw', duration: 1.0 }, 0.12)
   // 2. Com a tela coberta, o logo aparece e as ondas dele se desenham
     .to(brand, { opacity: 1, duration: .45, ease: 'power2.out' }, 0.8)
     .to(curls, { strokeDashoffset: 0, duration: .9, stagger: .1, ease: 'power2.inOut' }, 0.85)
@@ -423,7 +442,11 @@ header.scrolled { box-shadow: 0 10px 30px -24px rgba(38, 56, 95, .6); }
     .fromTo(card,
       { opacity: 0, x: -140, rotation: -4 },
       { opacity: 1, x: 0, rotation: 1.5, duration: 1.2, ease: 'power3.out' },
-      2.45);
+      2.45)
+  // 5. A borboleta e o traçado lateral só aparecem junto com o site
+    .to(trail, { opacity: 1, duration: .8, ease: 'power2.out' }, 2.6);
+  if (skipped) tl.progress(1);
+  }
 })();
 </script>
 <script>
