@@ -1,0 +1,35 @@
+SITE ANNALU PSI - COMO VER E COMO PUBLICAR
+==========================================
+
+O site inteiro está no arquivo index.html (textos, foto, animações).
+
+
+1) PARA VER NO COMPUTADOR
+   Dê dois cliques no arquivo index.html. Ele abre no navegador.
+   Precisa de internet para carregar as fontes e a animação da onda.
+
+
+2) PARA COLOCAR NO AR (grátis, uns 2 minutos)
+   a. Acesse: https://app.netlify.com/drop
+   b. Crie uma conta gratuita (pode entrar com o Google).
+   c. Arraste a PASTA "site" inteira para a área indicada na página.
+   d. Pronto: o Netlify gera um link (ex.: algo.netlify.app) que já pode ser
+      compartilhado e colocado na bio do Instagram.
+   e. Em "Site configuration" > "Change site name" dá para trocar o começo
+      do link (ex.: annalupsi.netlify.app).
+
+
+3) ENDEREÇO PRÓPRIO (opcional, pago)
+   Para ter um endereço como annalupsi.com.br:
+   a. Registre o domínio em https://registro.br (cerca de R$ 40 por ano).
+   b. No Netlify: "Domain management" > "Add a domain" e siga as instruções.
+
+
+4) PARA MUDAR ALGUM TEXTO OU INFORMAÇÃO
+   Abra o index.html no Bloco de Notas, procure o texto e altere.
+   Depois arraste a pasta de novo no Netlify (aba "Deploys").
+
+
+LEMBRETE
+   Para atendimento psicológico online, o Conselho Federal de Psicologia
+   exige o cadastro na plataforma e-Psi (https://e-psi.cfp.org.br).
