@@ -91,3 +91,7 @@ footer strong { color: var(--ink); font-weight: 600; }
   *, *::before, *::after { transition: none !important; }
   .post-card:hover { transform: none; }
 }
+
+/* Capa do texto: a arte do post, em formato retrato */
+.cover { margin: 0 0 40px; }
+.cover img { display: block; width: 100%; max-width: 380px; height: auto; border-radius: 14px; border: 1px solid var(--line); }
