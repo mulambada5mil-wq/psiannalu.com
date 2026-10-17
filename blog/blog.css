@@ -96,5 +96,5 @@ footer strong { color: var(--ink); font-weight: 600; }
 }
 
 /* Capa do texto: a arte do post, em formato retrato */
-.cover { margin: 0 0 40px; }
-.cover img { display: block; width: 100%; max-width: 380px; height: auto; border-radius: 14px; border: 1px solid var(--line); }
+.cover { margin: 0 0 44px; }
+.cover img { display: block; margin-inline: auto; width: 100%; max-width: 320px; height: auto; border-radius: 14px; border: 1px solid var(--line); }
