@@ -18,23 +18,67 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  "name": "Annalu Psi",
-  "description": "Atendimento psicológico online com abordagem psicanalítica para jovens adultos, adultos e idosos.",
-  "url": "https://www.psiannalu.com/",
-  "areaServed": [
-    { "@type": "City", "name": "Nova Friburgo" },
-    { "@type": "State", "name": "Rio de Janeiro" },
-    { "@type": "Country", "name": "Brasil" }
-  ],
-  "availableLanguage": "pt-BR",
-  "sameAs": ["https://www.instagram.com/psiu.annalu/"],
-  "founder": {
-    "@type": "Person",
-    "name": "Anna Luiza Ecard Eyng",
-    "jobTitle": "Psicóloga",
-    "identifier": "CRP 05/88606"
-  }
+  "@graph": [
+    {
+      "@type": "ProfessionalService",
+      "@id": "https://www.psiannalu.com/#servico",
+      "name": "Annalu Psi",
+      "description": "Atendimento psicológico online com abordagem psicanalítica para jovens adultos, adultos e idosos.",
+      "url": "https://www.psiannalu.com/",
+      "image": "https://www.psiannalu.com/img/og-home.jpg",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Nova Friburgo",
+        "addressRegion": "RJ",
+        "addressCountry": "BR"
+      },
+      "areaServed": [
+        { "@type": "City", "name": "Nova Friburgo" },
+        { "@type": "State", "name": "Rio de Janeiro" },
+        { "@type": "Country", "name": "Brasil" }
+      ],
+      "availableLanguage": "pt-BR",
+      "sameAs": ["https://www.instagram.com/psiu.annalu/"],
+      "founder": { "@id": "https://www.psiannalu.com/#anna" }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://www.psiannalu.com/#anna",
+      "name": "Anna Luiza Ecard Eyng",
+      "alternateName": "Annalu",
+      "jobTitle": "Psicóloga",
+      "identifier": {
+        "@type": "PropertyValue",
+        "propertyID": "CRP",
+        "value": "CRP 05/88606"
+      },
+      "hasCredential": {
+        "@type": "EducationalOccupationalCredential",
+        "credentialCategory": "Registro profissional",
+        "name": "CRP 05/88606",
+        "recognizedBy": { "@type": "Organization", "name": "Conselho Regional de Psicologia da 5ª Região (RJ)" }
+      },
+      "knowsAbout": ["Psicanálise", "Terapia online", "Ansiedade", "Sintomas depressivos", "Sociedade do cansaço"],
+      "homeLocation": { "@type": "City", "name": "Nova Friburgo" },
+      "url": "https://www.psiannalu.com/",
+      "sameAs": ["https://www.instagram.com/psiu.annalu/"],
+      "worksFor": { "@id": "https://www.psiannalu.com/#servico" }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://www.psiannalu.com/#faq",
+      "mainEntity": [
+        { "@type": "Question", "name": "Como é uma sessão online?", "acceptedAnswer": { "@type": "Answer", "text": "Igual a uma sessão presencial, só que por vídeo. No horário combinado você entra pelo link do Google Meet e conversamos com a mesma atenção e o mesmo cuidado do consultório." } },
+        { "@type": "Question", "name": "O que eu preciso ter?", "acceptedAnswer": { "@type": "Answer", "text": "Uma conexão de internet estável, celular ou computador com câmera e, de preferência, fone de ouvido. O mais importante é um lugar reservado, onde você possa falar à vontade." } },
+        { "@type": "Question", "name": "O que eu falo é sigiloso?", "acceptedAnswer": { "@type": "Answer", "text": "Sim. Tudo o que é dito nas sessões é protegido pelo sigilo profissional previsto no Código de Ética do Psicólogo, no atendimento online ou presencial." } },
+        { "@type": "Question", "name": "Como faço para começar?", "acceptedAnswer": { "@type": "Answer", "text": "Mande uma mensagem pelo WhatsApp. A gente conversa sobre horários, frequência e valores, e marca a primeira sessão." } },
+        { "@type": "Question", "name": "Como é a primeira sessão?", "acceptedAnswer": { "@type": "Answer", "text": "É um primeiro encontro para nos conhecermos. Você conta o que te trouxe até aqui, tira suas dúvidas sobre o processo e, juntos, vemos se faz sentido seguir com a análise." } },
+        { "@type": "Question", "name": "Quanto custa a sessão?", "acceptedAnswer": { "@type": "Answer", "text": "Os valores são combinados diretamente comigo pelo WhatsApp, levando em conta a frequência das sessões." } },
+        { "@type": "Question", "name": "Você atende por plano de saúde?", "acceptedAnswer": { "@type": "Answer", "text": "Não. O atendimento é particular." } },
+        { "@type": "Question", "name": "Só atende quem mora em Nova Friburgo?", "acceptedAnswer": { "@type": "Answer", "text": "Não. Sou de Nova Friburgo, mas como as sessões são online, atendo pessoas de qualquer cidade do Brasil." } }
+      ]
+    }
+  ]
 }
 </script>
 <link rel="icon" href="/favicon.ico" sizes="48x48">
