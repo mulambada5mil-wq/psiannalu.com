@@ -8,13 +8,14 @@ Os textos do blog ficam em content/posts/ e são montados automaticamente
 
 1) PARA PUBLICAR UM TEXTO NO BLOG (sem mexer em código)
    a. Acesse https://www.psiannalu.com/admin
-   b. Clique em "Entrar" e use o e-mail e a senha do painel.
-   c. Em "Textos do blog", clique em "Novo texto", preencha os campos,
-      suba a capa e clique em "Salvar".
-   d. Em 1 a 2 minutos o texto aparece no blog, e os 2 textos mais
-      recentes aparecem na página inicial.
-   Dica: o botão de aspas (citação) vira a frase em destaque do texto.
-   Para guardar sem publicar, marque "Rascunho".
+   b. Entre com o e-mail e a senha do painel.
+   c. Clique em "+ Novo texto", preencha os campos e escolha a capa.
+      Ao lado aparece a prévia, igual a como o texto vai ficar no site
+      (dá para ver como computador ou celular).
+   d. Clique em "Publicar". Em 1 a 2 minutos o texto aparece no blog,
+      e os 2 textos mais recentes aparecem na página inicial.
+   Dica: o botão "Destaque" vira a frase grande em itálico com a linha azul.
+   Para guardar sem publicar, use "Salvar rascunho".
 
 
 2) COMO O SITE VAI AO AR

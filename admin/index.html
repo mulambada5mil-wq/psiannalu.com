@@ -4,13 +4,156 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Painel · Annalu Psi</title>
+<title>Painel do blog · Annalu Psi</title>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link href="/admin/config.yml" type="application/yaml" rel="cms-config-url">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500;1,600&family=Figtree:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap">
+<link rel="stylesheet" href="/admin/painel.css">
+<script type="module" src="/admin/painel.js"></script>
 </head>
 <body>
-<!-- Painel dos textos do blog (Sveltia CMS). Campos em /admin/config.yml; login em /api/auth -->
-<!-- Sveltia CMS 0.231.0 guardado no próprio site (para atualizar, baixe dist/sveltia-cms.js e dist/chunks/ do unpkg) -->
-<script src="/admin/sveltia-cms.js"></script>
+<!-- Painel dos textos do blog. Lógica em painel.js; login e gravação em /api/sessao e /api/posts -->
+<header class="topo">
+  <a class="marca" href="/" target="_blank" rel="noopener"><b>Annalu Psi</b><small>painel do blog</small></a>
+  <button class="btn btn-linha btn-pequeno" id="sair" type="button" hidden>Sair</button>
+</header>
+
+<main>
+  <p class="carregando" id="tela-carregando">Carregando…</p>
+
+  <section class="tela tela-login" id="tela-login" hidden aria-labelledby="titulo-login">
+    <form class="cartao" id="form-login" novalidate>
+      <span class="tag">acesso restrito</span>
+      <h1 id="titulo-login">Entrar no <em>painel</em></h1>
+      <p class="ajuda">Para publicar e editar os textos do blog.</p>
+      <label class="campo">E-mail <input type="email" name="email" autocomplete="username" required></label>
+      <label class="campo">Senha <input type="password" name="senha" autocomplete="current-password" required></label>
+      <p class="erro" id="erro-login" role="alert" hidden></p>
+      <button class="btn btn-tinta" type="submit">Entrar</button>
+    </form>
+  </section>
+
+  <section class="tela tela-lista" id="tela-lista" hidden aria-labelledby="titulo-lista">
+    <div class="lista-topo">
+      <div>
+        <span class="tag">blog</span>
+        <h1 id="titulo-lista">Seus <em>textos</em></h1>
+      </div>
+      <button class="btn btn-tinta" id="novo" type="button">+ Novo texto</button>
+    </div>
+    <p class="ajuda">Os 2 textos mais recentes publicados aparecem também na página inicial do site.</p>
+    <ul class="lista" id="lista"></ul>
+  </section>
+
+  <section class="tela tela-editor" id="tela-editor" hidden aria-label="Editor do texto">
+    <div class="barra">
+      <button class="voltar" id="voltar" type="button">← Todos os textos</button>
+      <span class="situacao" id="situacao"></span>
+      <div class="barra-acoes">
+        <button class="btn btn-linha" id="salvar-rascunho" type="button">Salvar rascunho</button>
+        <button class="btn btn-tinta" id="publicar" type="button">Publicar</button>
+      </div>
+    </div>
+
+    <div class="abas" role="tablist" aria-label="Escrever ou ver a prévia">
+      <button type="button" role="tab" id="aba-escrever" aria-selected="true">Escrever</button>
+      <button type="button" role="tab" id="aba-previa" aria-selected="false">Ver prévia</button>
+    </div>
+
+    <div class="grade" id="grade" data-aba="escrever">
+      <form class="formulario" id="form-post" novalidate>
+        <fieldset>
+          <legend>Título</legend>
+          <label class="campo"><span class="rotulo">Título <span class="obrig">obrigatório</span></span>
+            <input name="titulo" maxlength="120" required placeholder="Ex.: Medo de errar:">
+          </label>
+          <label class="campo">Continuação do título, em itálico
+            <input name="titulo_italico" maxlength="160" placeholder="Ex.: por que paralisamos diante da incerteza?">
+            <span class="ajuda">Aparece em itálico e na cor marrom, como nos textos atuais. Pode deixar vazio.</span>
+          </label>
+          <div class="dupla">
+            <label class="campo"><span class="rotulo">Categoria <span class="obrig">obrigatório</span></span>
+              <input name="categoria" maxlength="40" required list="categorias" placeholder="reflexões">
+              <datalist id="categorias"></datalist>
+            </label>
+            <label class="campo">Data de publicação
+              <input name="data" type="date" required>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Capa</legend>
+          <div class="capa">
+            <div class="capa-miniatura" id="capa-miniatura"><span>sem capa</span></div>
+            <div class="capa-escolher">
+              <label class="btn btn-linha" for="capa-arquivo">Escolher imagem</label>
+              <input class="invisivel" type="file" id="capa-arquivo" accept="image/jpeg,image/png,image/webp">
+              <span class="ajuda">Imagem vertical, de preferência 4:5 (como 1080×1350, o formato do Instagram). A foto é reduzida sozinha antes de subir.</span>
+            </div>
+          </div>
+          <label class="campo"><span class="rotulo">Descrição da capa <span class="obrig">obrigatório</span></span>
+            <input name="capa_alt" maxlength="200" required placeholder="Ex.: Ilustração de uma bailarina sobre linhas vermelhas">
+            <span class="ajuda">Uma frase dizendo o que aparece na imagem. Ajuda quem não enxerga e o Google.</span>
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Texto</legend>
+          <div class="ferramentas" role="toolbar" aria-label="Formatação do texto">
+            <button type="button" data-formato="subtitulo" title="Subtítulo">Subtítulo</button>
+            <button type="button" data-formato="negrito" title="Negrito (Ctrl+B)"><b>N</b></button>
+            <button type="button" data-formato="italico" title="Itálico (Ctrl+I)"><i>I</i></button>
+            <button type="button" data-formato="lista" title="Lista com marcadores">• Lista</button>
+            <button type="button" data-formato="destaque" title="Frase em destaque">“ Destaque</button>
+            <button type="button" data-formato="link" title="Link">Link</button>
+          </div>
+          <textarea name="corpo" id="corpo" rows="18" aria-label="Texto do post" placeholder="Escreva ou cole o texto aqui. Cada parágrafo em uma linha."></textarea>
+          <p class="ajuda">Selecione um trecho e clique num botão para formatar. <b>Destaque</b> vira a frase grande em itálico com a linha azul. Cada linha vira um parágrafo.</p>
+          <label class="campo">Frase final
+            <textarea name="fechamento" rows="2" maxlength="400" placeholder="Se este texto fez sentido para você, a análise pode ser um espaço para pensar sobre isso."></textarea>
+            <span class="ajuda">Aparece no quadro do fim, antes do botão do WhatsApp. Vazio, usa a frase de exemplo.</span>
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Para o Google e o WhatsApp</legend>
+          <label class="campo"><span class="rotulo">Resumo <span class="obrig">obrigatório</span></span>
+            <textarea name="resumo" rows="2" maxlength="300" required></textarea>
+            <span class="ajuda">Uma ou duas frases. Aparece nos cards do blog e da página inicial, e quando o link é enviado no WhatsApp. <span class="contador" data-contador="resumo"></span></span>
+          </label>
+          <label class="campo"><span class="rotulo">Descrição para o Google <span class="obrig">obrigatório</span></span>
+            <textarea name="descricao" rows="3" maxlength="160" required></textarea>
+            <span class="ajuda">Entre 50 e 160 caracteres. Diga do que o texto trata e cite o tema principal, como "terapia online" ou "ansiedade". <span class="contador" data-contador="descricao"></span></span>
+          </label>
+        </fieldset>
+
+        <div class="apagar" id="area-apagar" hidden>
+          <button class="btn-perigo" id="apagar" type="button">Apagar este texto</button>
+          <span class="confirmar" id="confirmar-apagar" hidden>
+            Apagar de vez? <button class="btn-perigo" id="apagar-sim" type="button">Sim, apagar</button>
+            <button class="voltar" id="apagar-nao" type="button">Cancelar</button>
+          </span>
+        </div>
+      </form>
+
+      <aside class="previa" aria-label="Prévia do texto como vai ficar no site">
+        <div class="previa-topo">
+          <span class="tag">prévia · igual ao site</span>
+          <div class="tamanhos" role="group" aria-label="Tamanho da prévia">
+            <button type="button" data-tamanho="computador" aria-pressed="true">Computador</button>
+            <button type="button" data-tamanho="celular" aria-pressed="false">Celular</button>
+          </div>
+        </div>
+        <div class="moldura" id="moldura" data-tamanho="computador">
+          <iframe id="previa" title="Prévia do texto" sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+        </div>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<div class="aviso" id="aviso" role="status" aria-live="polite" hidden></div>
 </body>
 </html>
