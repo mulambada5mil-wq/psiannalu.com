@@ -1,0 +1,107 @@
+# Painel do blog. Cada texto salvo aqui vira um arquivo em content/posts/ e a Vercel publica em 1 a 2 minutos.
+backend:
+  name: github
+  repo: mulambada5mil-wq/psiannalu.com
+  branch: main
+  # Login por e-mail e senha: /api/auth confere os dados e libera o acesso
+  base_url: https://www.psiannalu.com
+  auth_endpoint: api/auth
+  auth_methods: [oauth]
+  commit_messages:
+    create: "feat: novo texto no blog, {{slug}}"
+    update: "fix: texto do blog atualizado, {{slug}}"
+    delete: "chore: texto do blog removido, {{slug}}"
+    uploadMedia: "chore: imagem do blog, {{path}}"
+    deleteMedia: "chore: imagem do blog removida, {{path}}"
+
+site_url: https://www.psiannalu.com
+display_url: https://www.psiannalu.com
+logo:
+  src: /favicon.svg
+
+media_folder: /img/blog
+public_folder: /img/blog
+media_libraries:
+  default:
+    config:
+      slugify_filename: true
+      # Foto do celular é convertida para WebP e reduzida antes de subir: página leve
+      transformations:
+        raster_image:
+          format: webp
+          quality: 82
+          width: 1600
+          height: 1600
+
+collections:
+  - name: posts
+    label: Textos do blog
+    label_singular: Texto
+    description: Cada texto vira uma página no blog, com capa, e os 2 mais recentes aparecem na página inicial.
+    folder: content/posts
+    create: true
+    delete: true
+    extension: md
+    format: yaml-frontmatter
+    identifier_field: titulo
+    slug: "{{slug}}"
+    summary: "{{titulo}} {{titulo_italico}}"
+    sortable_fields: [data, titulo]
+    fields:
+      - label: Título
+        name: titulo
+        widget: string
+        hint: "Primeira parte do título. Ex.: Medo de errar:"
+      - label: Continuação do título (em itálico)
+        name: titulo_italico
+        widget: string
+        required: false
+        hint: "Aparece em itálico e na cor marrom. Ex.: por que paralisamos diante da incerteza?"
+      - label: Data de publicação
+        name: data
+        widget: datetime
+        time_format: false
+        date_format: DD/MM/YYYY
+        format: YYYY-MM-DD
+        default: "{{now}}"
+      - label: Categoria
+        name: categoria
+        widget: string
+        default: reflexões
+        hint: "Uma ou duas palavras, em minúsculas. Ex.: reflexões, terapia online"
+      - label: Resumo
+        name: resumo
+        widget: text
+        hint: "Uma ou duas frases. Aparece nos cards do blog e da página inicial e quando o link é compartilhado no WhatsApp."
+      - label: Descrição para o Google
+        name: descricao
+        widget: text
+        pattern: ['^[\s\S]{50,160}$', "Escreva entre 50 e 160 caracteres."]
+        hint: "Entre 50 e 160 caracteres. Diga do que o texto trata e cite o tema principal. Ex.: Como é a sessão por vídeo... Por Anna Luiza Ecard Eyng, psicóloga em Nova Friburgo."
+      - label: Capa
+        name: capa
+        widget: image
+        hint: "Imagem vertical, de preferência no formato 4:5 (como 1080×1350, o mesmo do Instagram)."
+      - label: Descrição da capa
+        name: capa_alt
+        widget: string
+        hint: "Descreva a imagem em uma frase, para quem não enxerga e para o Google. Ex.: Ilustração de uma bailarina sobre linhas vermelhas."
+      - label: Imagem para compartilhamento (opcional)
+        name: imagem_compartilhamento
+        widget: image
+        required: false
+        hint: "Horizontal, 1200×630. Aparece quando o link é enviado no WhatsApp. Se ficar vazio, usa a capa."
+      - label: Texto
+        name: body
+        widget: markdown
+        hint: "Use Título 2 para os subtítulos. O botão de citação (aspas) vira a frase em destaque, em itálico com a linha azul."
+      - label: Frase final (opcional)
+        name: fechamento
+        widget: text
+        required: false
+        hint: "Aparece no quadro do fim, antes do botão do WhatsApp. Se ficar vazio, usa uma frase padrão."
+      - label: Rascunho
+        name: rascunho
+        widget: boolean
+        default: false
+        hint: "Marcado, o texto fica salvo mas não aparece no site."

@@ -1,33 +1,40 @@
 SITE ANNALU PSI - COMO VER E COMO PUBLICAR
 ==========================================
 
-O site inteiro está no arquivo index.html (textos, foto, animações).
+A página inicial está no arquivo index.html (textos, foto, animações).
+Os textos do blog ficam em content/posts/ e são montados automaticamente
+(com o mesmo visual, SEO e dados para o Google) pelo arquivo scripts/build.mjs.
 
 
-1) PARA VER NO COMPUTADOR
-   Dê dois cliques no arquivo index.html. Ele abre no navegador.
-   Precisa de internet para carregar as fontes e a animação da onda.
+1) PARA PUBLICAR UM TEXTO NO BLOG (sem mexer em código)
+   a. Acesse https://www.psiannalu.com/admin
+   b. Clique em "Entrar" e use o e-mail e a senha do painel.
+   c. Em "Textos do blog", clique em "Novo texto", preencha os campos,
+      suba a capa e clique em "Salvar".
+   d. Em 1 a 2 minutos o texto aparece no blog, e os 2 textos mais
+      recentes aparecem na página inicial.
+   Dica: o botão de aspas (citação) vira a frase em destaque do texto.
+   Para guardar sem publicar, marque "Rascunho".
 
 
-2) PARA COLOCAR NO AR (grátis, uns 2 minutos)
-   a. Acesse: https://app.netlify.com/drop
-   b. Crie uma conta gratuita (pode entrar com o Google).
-   c. Arraste a PASTA "site" inteira para a área indicada na página.
-   d. Pronto: o Netlify gera um link (ex.: algo.netlify.app) que já pode ser
-      compartilhado e colocado na bio do Instagram.
-   e. Em "Site configuration" > "Change site name" dá para trocar o começo
-      do link (ex.: annalupsi.netlify.app).
+2) COMO O SITE VAI AO AR
+   O site está na Vercel, ligada ao GitHub (mulambada5mil-wq/psiannalu.com).
+   Qualquer alteração enviada ao GitHub, inclusive as feitas pelo painel,
+   é publicada sozinha em 1 a 2 minutos.
+   Não arraste a pasta para o Netlify: o blog precisa ser montado pela Vercel.
 
 
-3) ENDEREÇO PRÓPRIO (opcional, pago)
-   Para ter um endereço como annalupsi.com.br:
-   a. Registre o domínio em https://registro.br (cerca de R$ 40 por ano).
-   b. No Netlify: "Domain management" > "Add a domain" e siga as instruções.
+3) PARA VER NO COMPUTADOR
+   No terminal, dentro da pasta do site: npm install e depois npm run build.
+   O site pronto fica na pasta dist/ (abra dist/index.html).
 
 
-4) PARA MUDAR ALGUM TEXTO OU INFORMAÇÃO
-   Abra o index.html no Bloco de Notas, procure o texto e altere.
-   Depois arraste a pasta de novo no Netlify (aba "Deploys").
+4) LOGIN DO PAINEL (configurado na Vercel, em Settings > Environment Variables)
+   ADMIN_EMAIL   e-mail usado para entrar no painel
+   ADMIN_SENHA   senha do painel (longa, guardada num gerenciador de senhas)
+   GITHUB_TOKEN  chave do GitHub com acesso só ao conteúdo deste repositório
+   Para trocar a senha, altere ADMIN_SENHA na Vercel e faça um novo deploy.
+   A chave do GitHub expira: crie uma nova antes do vencimento e troque aqui.
 
 
 LEMBRETE
