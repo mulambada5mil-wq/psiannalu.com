@@ -46,13 +46,12 @@ body {
 }
 main { max-width: 420px; margin: 0 auto; display: flex; flex-direction: column; gap: 36px; }
 header { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 10px; }
-.mono {
-  width: 84px; height: 84px; border-radius: 50%;
+.foto {
+  width: 112px; height: 112px; border-radius: 50%;
   border: 1px solid var(--line);
-  display: grid; place-items: center;
-  font-family: var(--display); font-style: italic; font-size: 44px; line-height: 1;
-  padding-bottom: 4px;
+  overflow: hidden;
 }
+.foto img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 52% 30%; transform: scale(1.15); }
 h1 { font-family: var(--display); font-style: italic; font-weight: 500; font-size: 44px; line-height: 1.05; margin: 6px 0 0; text-wrap: balance; }
 .sub { font-size: 12px; letter-spacing: .14em; text-transform: lowercase; color: var(--muted); margin: 0; }
 .tag { font-family: var(--display); font-size: 21px; line-height: 1.35; margin: 4px 0 0; max-width: 30ch; text-wrap: balance; }
@@ -84,7 +83,7 @@ footer .crp { letter-spacing: .12em; text-transform: uppercase; }
 <body>
 <main>
   <header>
-    <div class="mono" aria-hidden="true">A</div>
+    <div class="foto"><img src="/img/anna-luiza.webp" width="112" height="112" fetchpriority="high" alt="Foto da psicóloga Anna Luiza Ecard Eyng"></div>
     <h1>Annalu Psi</h1>
     <p class="sub">psicóloga · abordagem psicanalítica</p>
     <p class="tag">Um espaço para escutar, acolher e compartilhar.</p>
