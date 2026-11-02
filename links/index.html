@@ -11,97 +11,165 @@
 <meta property="og:url" content="https://www.psiannalu.com/links/">
 <link rel="stylesheet" href="/fonts/fontes.css">
 <style>
-/* Layout: uma coluna estreita e calma, como a página de entrada do site; o WhatsApp é o único bloco cheio */
+/* Layout: no celular a página ocupa a tela toda; no PC vira um cartão central sobre um fundo mais escuro */
 :root {
+  --backdrop: #D8CCB8;
   --bg: #EDE3D2;
+  --surface: #FBF7EF;
   --fg: #171C2A;
   --muted: #5E5A55;
   --line: rgba(23, 28, 42, .18);
-  --btn-bg: #171C2A;
-  --btn-fg: #EDE3D2;
-  --hover: rgba(23, 28, 42, .06);
+  --tile-bg: #171C2A;
+  --tile-fg: #EDE3D2;
+  --shadow: rgba(23, 28, 42, .16);
   --display: "Cormorant Garamond", Garamond, Georgia, serif;
   --body: "Figtree", "Segoe UI", system-ui, sans-serif;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #171C2A; --fg: #EDE3D2; --muted: #A9A398; --line: rgba(237, 227, 210, .2);
-    --btn-bg: #EDE3D2; --btn-fg: #171C2A; --hover: rgba(237, 227, 210, .07);
+    --backdrop: #0E121C; --bg: #171C2A; --surface: #232939; --fg: #EDE3D2; --muted: #A9A398; --line: rgba(237, 227, 210, .2);
+    --tile-bg: #EDE3D2; --tile-fg: #171C2A; --shadow: rgba(0, 0, 0, .35);
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #171C2A; --fg: #EDE3D2; --muted: #A9A398; --line: rgba(237, 227, 210, .2);
-  --btn-bg: #EDE3D2; --btn-fg: #171C2A; --hover: rgba(237, 227, 210, .07);
-  color-scheme: dark;
+  --backdrop: #0E121C; --bg: #171C2A; --surface: #232939; --fg: #EDE3D2; --muted: #A9A398; --line: rgba(237, 227, 210, .2);
+    --tile-bg: #EDE3D2; --tile-fg: #171C2A; --shadow: rgba(0, 0, 0, .35);
+    color-scheme: dark;
 }
 * { box-sizing: border-box; }
+::selection { background: var(--fg); color: var(--bg); }
 body {
+  margin: 0; min-height: 100dvh;
   background: var(--bg); color: var(--fg);
   font-family: var(--body); font-size: 16px; line-height: 1.5;
-  padding-left: max(16px, env(safe-area-inset-left, 0px));
-  padding-right: max(16px, env(safe-area-inset-right, 0px));
-  padding-block: 56px 40px;
   -webkit-font-smoothing: antialiased;
 }
-main { max-width: 420px; margin: 0 auto; display: flex; flex-direction: column; gap: 36px; }
-header { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+main {
+  display: flex; flex-direction: column; gap: 28px;
+  padding: 16px max(16px, env(safe-area-inset-right, 0px)) 32px max(16px, env(safe-area-inset-left, 0px));
+}
+a, button { -webkit-tap-highlight-color: transparent; }
+:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+
+.top { display: flex; justify-content: space-between; }
+.icon-btn {
+  width: 48px; height: 48px; padding: 0;
+  display: grid; place-items: center;
+  border: 0; border-radius: 16px;
+  background: var(--surface); color: var(--fg);
+  box-shadow: 0 2px 8px var(--shadow);
+  cursor: pointer; transition: transform .2s cubic-bezier(.16, 1, .3, 1);
+}
+.icon-btn:hover { transform: translateY(-1px); }
+.icon-btn:active { transform: scale(.96); }
+svg.line { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+header { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: -20px; }
 .foto {
-  width: 112px; height: 112px; border-radius: 50%;
+  width: 120px; height: 120px; border-radius: 50%;
   border: 1px solid var(--line);
-  overflow: hidden;
+  overflow: hidden; margin-bottom: 6px;
 }
 .foto img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 52% 30%; transform: scale(1.15); }
-h1 { font-family: var(--display); font-style: italic; font-weight: 500; font-size: 44px; line-height: 1.05; margin: 6px 0 0; text-wrap: balance; }
+h1 { font-family: var(--display); font-style: italic; font-weight: 500; font-size: 42px; line-height: 1.05; margin: 0; text-wrap: balance; }
 .sub { font-size: 12px; letter-spacing: .14em; text-transform: lowercase; color: var(--muted); margin: 0; }
-.tag { font-family: var(--display); font-size: 21px; line-height: 1.35; margin: 4px 0 0; max-width: 30ch; text-wrap: balance; }
+.tag { font-family: var(--display); font-size: 21px; line-height: 1.35; margin: 2px 0 0; max-width: 30ch; text-wrap: balance; }
 
-nav { display: flex; flex-direction: column; gap: 12px; }
-.link {
-  display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  padding: 16px 20px; border: 1px solid var(--line); border-radius: 999px;
-  color: var(--fg); text-decoration: none; font-weight: 500;
-  transition: background .2s ease;
+.rows { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+.row {
+  position: relative; border-radius: 14px; background: var(--surface);
+  box-shadow: 0 2px 8px var(--shadow);
+  transition: transform .25s cubic-bezier(.16, 1, .3, 1), box-shadow .25s cubic-bezier(.16, 1, .3, 1);
 }
-.link:hover { background: var(--hover); }
-.link:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
-.link small { display: block; font-weight: 400; font-size: 13px; color: var(--muted); }
-.link .arrow { font-family: var(--display); font-size: 22px; line-height: 1; flex: none; }
-.link.primary { background: var(--btn-bg); color: var(--btn-fg); border-color: var(--btn-bg); padding-block: 20px; }
-.link.primary small { color: var(--btn-fg); opacity: .75; }
-.link.primary:hover { opacity: .92; background: var(--btn-bg); }
-.wa { width: 22px; height: 22px; flex: none; fill: currentColor; }
-.left { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.row:hover { transform: translateY(-2px); box-shadow: 0 8px 20px var(--shadow); }
+.row-link {
+  display: grid; grid-template-columns: 56px 1fr 56px; align-items: center; gap: 10px;
+  min-height: 76px; padding: 10px;
+  border-radius: inherit; color: var(--fg); text-decoration: none;
+  font-weight: 500; font-size: 17px; line-height: 1.3; text-align: center; text-wrap: balance;
+}
+.row-link:active { opacity: .85; }
+.tile {
+  width: 56px; height: 56px; border-radius: 10px;
+  display: grid; place-items: center;
+  background: var(--tile-bg); color: var(--tile-fg);
+}
+.tile svg { width: 28px; height: 28px; }
+.tile svg.wa { fill: currentColor; }
+.more {
+  position: absolute; top: 50%; right: 8px; translate: 0 -50%;
+  width: 44px; height: 44px; padding: 0;
+  display: grid; place-items: center;
+  border: 0; border-radius: 50%; background: transparent; color: var(--muted);
+  cursor: pointer; transition: background .2s ease;
+}
+.more:hover { background: var(--line); }
+.more svg { width: 18px; height: 18px; fill: currentColor; }
 
-
-footer { text-align: center; font-size: 12px; color: var(--muted); display: flex; flex-direction: column; gap: 6px; border-top: 1px solid var(--line); padding-top: 22px; }
+footer { text-align: center; font-size: 12px; color: var(--muted); display: flex; flex-direction: column; gap: 6px; border-top: 1px solid var(--line); padding-top: 20px; text-wrap: balance; }
 footer p { margin: 0; }
 footer .crp { letter-spacing: .12em; text-transform: uppercase; }
-@media (prefers-reduced-motion: reduce) { .link { transition: none; } }
+
+.aviso {
+  position: fixed; left: 50%; bottom: max(24px, env(safe-area-inset-bottom, 0px)); translate: -50% 0;
+  margin: 0; max-width: calc(100vw - 32px); padding: 10px 18px; border-radius: 999px;
+  background: var(--tile-bg); color: var(--tile-fg); font-size: 14px; text-align: center;
+  opacity: 0; pointer-events: none; transition: opacity .2s ease;
+}
+.aviso.visivel { opacity: 1; }
+
+@media (min-width: 720px) {
+  body { background: var(--backdrop); padding: 48px 16px; }
+  main {
+    width: 100%; max-width: 680px; margin: 0 auto; gap: 32px; padding: 32px;
+    background: var(--bg); border-radius: 32px;
+    box-shadow: 0 24px 60px var(--shadow);
+  }
+  .foto { width: 128px; height: 128px; }
+}
+@media (prefers-reduced-motion: reduce) { .icon-btn, .row, .more, .aviso { transition: none; } .row:hover, .icon-btn:hover { transform: none; } }
 </style>
 </head>
 <body>
 <main>
+  <div class="top">
+    <a class="icon-btn" href="https://www.instagram.com/psiu.annalu/" target="_blank" rel="noopener" aria-label="Instagram @psiu.annalu">
+      <svg class="line" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.3 6.700h.01"/></svg>
+    </a>
+    <button class="icon-btn" type="button" data-partilhar="https://www.psiannalu.com/links/" data-titulo="Annalu Psi" aria-label="Compartilhar esta página">
+      <svg class="line" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3.500M7.500 8 12 3.500 16.500 8"/><path d="M6 12H5v8.500h14V12h-1"/></svg>
+    </button>
+  </div>
+
   <header>
-    <div class="foto"><img src="/img/anna-luiza.webp" width="112" height="112" fetchpriority="high" alt="Foto da psicóloga Anna Luiza Ecard Eyng"></div>
+    <div class="foto"><img src="/img/anna-luiza.webp" width="128" height="128" fetchpriority="high" alt="Foto da psicóloga Anna Luiza Ecard Eyng"></div>
     <h1>Annalu Psi</h1>
     <p class="sub">psicóloga · abordagem psicanalítica</p>
     <p class="tag">Um espaço para escutar, acolher e compartilhar.</p>
   </header>
 
   <nav aria-label="Links">
-    <a class="link primary" href="https://wa.me/5522992130186?text=Ol%C3%A1%2C%20vim%20pelo%20Instagram%20e%20gostaria%20de%20agendar%20uma%20sess%C3%A3o." target="_blank" rel="noopener">
-      <span class="left">
-        <svg class="wa" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>
-        <span>Agendar pelo WhatsApp<small>(22) 99213-0186</small></span>
-      </span>
-      <span class="arrow" aria-hidden="true">→</span>
-    </a>
-
-    <a class="link" href="https://www.psiannalu.com/" target="_blank" rel="noopener">
-      <span>Conheça o site<small>psiannalu.com</small></span>
-      <span class="arrow" aria-hidden="true">→</span>
-    </a>
+    <ul class="rows">
+      <li class="row">
+        <a class="row-link" href="https://wa.me/5522992130186?text=Ol%C3%A1%2C%20vim%20pelo%20Instagram%20e%20gostaria%20de%20agendar%20uma%20sess%C3%A3o." target="_blank" rel="noopener">
+          <span class="tile"><svg class="wa" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg></span>
+          <span>Agendar pelo WhatsApp</span>
+        </a>
+        <button class="more" type="button" data-partilhar="https://wa.me/5522992130186?text=Ol%C3%A1%2C%20vim%20pelo%20Instagram%20e%20gostaria%20de%20agendar%20uma%20sess%C3%A3o." data-titulo="Agendar pelo WhatsApp" aria-label="Compartilhar: Agendar pelo WhatsApp">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
+        </button>
+      </li>
+      <li class="row">
+        <a class="row-link" href="https://www.psiannalu.com/" target="_blank" rel="noopener">
+          <span class="tile"><svg class="line" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.600 2.500 3.900 5.500 3.900 9s-1.300 6.500-3.900 9c-2.600-2.500-3.900-5.500-3.900-9s1.300-6.500 3.900-9Z"/></svg></span>
+          <span>Conheça o site</span>
+        </a>
+        <button class="more" type="button" data-partilhar="https://www.psiannalu.com/" data-titulo="Conheça o site" aria-label="Compartilhar: Conheça o site">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
+        </button>
+      </li>
+    </ul>
   </nav>
 
   <footer>
@@ -110,5 +178,29 @@ footer .crp { letter-spacing: .12em; text-transform: uppercase; }
     <p>Não atendo emergências. Em crise, ligue CVV 188 ou SAMU 192.</p>
   </footer>
 </main>
+<p class="aviso" id="aviso" role="status"></p>
+<script>
+// Compartilhar: usa o menu do aparelho e, onde ele não existe (PC), copia o link
+const aviso = document.getElementById("aviso");
+let temporizador;
+function avisar(texto) {
+  aviso.textContent = texto;
+  aviso.classList.add("visivel");
+  clearTimeout(temporizador);
+  temporizador = setTimeout(() => aviso.classList.remove("visivel"), 2600);
+}
+document.addEventListener("click", async (evento) => {
+  const botao = evento.target.closest("[data-partilhar]");
+  if (!botao) return;
+  const { partilhar: url, titulo: title } = botao.dataset;
+  try {
+    if (navigator.share) return await navigator.share({ title, url });
+    await navigator.clipboard.writeText(url);
+    avisar("Link copiado");
+  } catch (erro) {
+    if (erro.name !== "AbortError") avisar("Não foi possível compartilhar. Copie o endereço na barra do navegador.");
+  }
+});
+</script>
 </body>
 </html>
