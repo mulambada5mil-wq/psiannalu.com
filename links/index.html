@@ -96,7 +96,9 @@ h1 { font-family: var(--display); font-style: italic; font-weight: 500; font-siz
   background: var(--tile-bg); color: var(--tile-fg);
 }
 .tile svg { width: 28px; height: 28px; }
-.tile svg.wa { fill: currentColor; }
+.tile-wa { background: #25D366; color: #fff; }
+.tile-logo { background: none; }
+.tile-logo svg { width: 100%; height: 100%; }
 .more {
   position: absolute; top: 50%; right: 8px; translate: 0 -50%;
   width: 44px; height: 44px; padding: 0;
@@ -153,7 +155,7 @@ footer .crp { letter-spacing: .12em; text-transform: uppercase; }
     <ul class="rows">
       <li class="row">
         <a class="row-link" href="https://wa.me/5522992130186?text=Ol%C3%A1%2C%20vim%20pelo%20Instagram%20e%20gostaria%20de%20agendar%20uma%20sess%C3%A3o." target="_blank" rel="noopener">
-          <span class="tile"><svg class="wa" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg></span>
+          <span class="tile tile-wa"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></span>
           <span>Agendar pelo WhatsApp</span>
         </a>
         <button class="more" type="button" data-partilhar="https://wa.me/5522992130186?text=Ol%C3%A1%2C%20vim%20pelo%20Instagram%20e%20gostaria%20de%20agendar%20uma%20sess%C3%A3o." data-titulo="Agendar pelo WhatsApp" aria-label="Compartilhar: Agendar pelo WhatsApp">
@@ -162,7 +164,7 @@ footer .crp { letter-spacing: .12em; text-transform: uppercase; }
       </li>
       <li class="row">
         <a class="row-link" href="https://www.psiannalu.com/" target="_blank" rel="noopener">
-          <span class="tile"><svg class="line" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.600 2.500 3.900 5.500 3.900 9s-1.300 6.500-3.900 9c-2.600-2.500-3.900-5.500-3.900-9s1.300-6.500 3.900-9Z"/></svg></span>
+          <span class="tile tile-logo"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#F4ECDF"/><text x="32" y="36" text-anchor="middle" font-family="Cormorant Garamond, Garamond, Georgia, serif" font-style="italic" font-weight="700" font-size="30" fill="#26385F">Psi</text><g fill="none" stroke="#8DA7CB" stroke-width="2.6" stroke-linecap="round" transform="translate(9 38) scale(.51)"><path d="M4 24 C 4 8, 22 4, 26 14 C 29 21, 20 24, 17 19 C 15 15, 20 13, 21 16"/><path d="M30 24 C 30 8, 48 4, 52 14 C 55 21, 46 24, 43 19 C 41 15, 46 13, 47 16"/><path d="M56 24 C 56 8, 74 4, 78 14 C 81 21, 72 24, 69 19 C 67 15, 72 13, 73 16"/><path d="M0 29 Q 22 23 44 29 T 88 29"/></g></svg></span>
           <span>Conheça o site</span>
         </a>
         <button class="more" type="button" data-partilhar="https://www.psiannalu.com/" data-titulo="Conheça o site" aria-label="Compartilhar: Conheça o site">
