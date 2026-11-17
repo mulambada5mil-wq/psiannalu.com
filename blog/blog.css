@@ -47,7 +47,16 @@ header .wrap { display: flex; align-items: center; justify-content: space-betwee
 nav { display: flex; gap: 26px; font-size: 15px; font-weight: 600; }
 nav a { text-decoration: none; color: var(--muted); }
 nav a:hover, nav a[aria-current] { color: var(--ink); }
-@media (max-width: 800px) { nav { display: none; } .logo small { display: none; } }
+@media (max-width: 800px) {
+  .logo small { display: none; }
+  header .wrap { flex-wrap: wrap; row-gap: 4px; padding-bottom: 8px; }
+  nav { order: 3; width: 100%; font-size: 14px; overflow-x: auto; scrollbar-width: none; padding-block: 6px 2px; border-top: 1px solid var(--line); }
+  nav::-webkit-scrollbar { display: none; }
+  nav { justify-content: space-between; gap: 12px; }
+  nav a { flex-shrink: 0; padding-block: 6px; }
+  nav a[href="#temas"] { display: none; }
+}
+@media (max-width: 360px) { nav { font-size: 13px; } .curls { display: none; } }
 
 .btn { display: inline-flex; align-items: center; gap: 10px; font: 600 16px var(--body); text-decoration: none; padding: 13px 22px; border-radius: 999px; border: 1.5px solid var(--ink); transition: background .2s ease, color .2s ease; }
 .btn-ink { background: var(--ink); color: var(--paper); }
@@ -65,7 +74,7 @@ nav a:hover, nav a[aria-current] { color: var(--ink); }
 .post-card:hover { transform: translateY(-3px); border-color: var(--earth); }
 .post-text { display: grid; gap: 10px; min-width: 0; }
 .thumb { width: 150px; height: 200px; object-fit: cover; object-position: top; border-radius: 10px; border: 1px solid var(--line); }
-@media (max-width: 560px) { .post-card { grid-template-columns: 92px minmax(0, 1fr); gap: 18px; padding: 18px; align-items: start; } .thumb { width: 92px; height: 124px; } }
+@media (max-width: 560px) { .post-card { grid-template-columns: minmax(0, 1fr); gap: 16px; padding: 14px 14px 20px; } .thumb { width: 100%; height: auto; aspect-ratio: 4 / 3; } .post-text { padding-inline: 4px; } .post-card h2 { font-size: 28px; } .post-card p { font-size: 16px; } }
 .post-card h2 { font-size: clamp(30px, 3.6vw, 40px); }
 .post-card p { color: var(--muted); font-size: 17px; max-width: 62ch; }
 
